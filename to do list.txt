@@ -1,0 +1,61 @@
+from tkinter import *
+
+def add_task():    #  fun to add tasks
+    task = entry.get()  # Assign the txt that entered in entry instance to Var task
+    if task:          # task = false (not empty)
+        listbox.insert(END, task)   # insert the explain line by line from tkinter import *
+
+def add_task():    #  fun to add tasks
+    task = entry.get()
+    if task:          # task = false (not empty)
+        listbox.insert(END, task) #it inserts the task into the listbox instance at the end index
+        entry.delete(0, END)         # delete the txt in the entry instance
+
+def delete_task():      # fun deleting task by click on delete
+    selected_tasks = listbox.curselection()
+    if selected_tasks:
+        listbox.delete(selected_tasks)
+
+root = Tk()
+root.title("To-Do List")
+
+listbox = Listbox(root, width=50, height=10, font=("Courier New", 12))
+listbox.pack(pady=10)
+
+entry = Entry(root, font=("Courier New", 12))
+entry.pack(pady=10)
+
+add_button = Button(root, text="Add Task", command=add_task, font=("Courier New", 12), bg="green")
+add_button.pack(pady=5)
+
+delete_button = Button(root, text="Delete Task", command=delete_task, font=("Courier New", 12), bg="red")
+delete_button.pack(pady=5)
+
+root.mainloop()
+entry.delete(0, END)
+
+def delete_task():
+    selected_tasks = listbox.curselection()
+    if selected_tasks:
+        listbox.delete(selected_tasks)
+
+root = Tk()
+root.title("To-Do List")
+
+listbox = Listbox(root, width=50, height=10, font=("Courier New", 12))
+listbox.pack(pady=10)
+
+entry = Entry(root, font=("Courier New", 12))
+entry.pack(pady=10)
+
+add_button = Button(root, text="Add Task", command=add_task, font=("Courier New", 12), bg="green")
+add_button.pack(pady=5)
+
+delete_button = Button(root, text="Delete Task", command=delete_task, font=("Courier New", 12), bg="red")
+delete_button.pack(pady=5)
+
+root.mainloop()
+
+
+
+  # this code with helping of chatgpt
