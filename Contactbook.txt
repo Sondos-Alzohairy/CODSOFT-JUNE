@@ -1,0 +1,168 @@
+from tkinter import *
+from tkinter import messagebox
+# Calling the library to make a GUI
+
+class ContactBook:
+    # self. ( refer to the current instance of a class.  )
+    # . window .( refer to the object  )
+    # . method()   (refer to the method you wanna call )
+    def __init__(self):                                          # Constuctor method };
+        self.window = Tk()
+        self.window.title("Contact Book")
+        self.window.configure(bg="#F5F5F5")                       # configure()  is a method usta modify the
+        # configuration options of a widget in TKinter .
+
+        # Contact List
+        self.contacts = [] # initializing an empty list called contacts that will store the contact information.
+
+        # GUI Components
+        self.name_label = Label(self.window, text="Name:", bg="#F5F5F5", font=("Arial", 16))
+        self.name_label.grid(row=0, column=0, padx=10, pady=10)
+        self.name_entry = Entry(self.window, font=("Arial", 16))
+        self.name_entry.grid(row=0, column=1, padx=10, pady=10)
+        # شارحين نفسهم مش محتاجة يعني و bg دي يعني نوع الخط و الرموز دي مكتوبة بالhexa ثقافة و كده
+
+        self.phone_label = Label(self.window, text="Phone:", bg="#F5F5F5", font=("Arial", 16))
+        self.phone_label.grid(row=1, column=0, padx=10, pady=10)
+        self.phone_entry = Entry(self.window, font=("Arial", 16))
+        self.phone_entry.grid(row=1, column=1, padx=10, pady=10)
+
+        self.email_label = Label(self.window, text="Email:", bg="#F5F5F5", font=("Arial", 16))
+        self.email_label.grid(row=2, column=0, padx=10, pady=10)
+        self.email_entry = Entry(self.window, font=("Arial", 16))
+        self.email_entry.grid(row=2, column=1, padx=10, pady=10)
+
+        self.address_label = Label(self.window, text="Address:", bg="#F5F5F5", font=("Arial", 16))
+        self.address_label.grid(row=3, column=0, padx=10, pady=10)
+        self.address_entry = Entry(self.window, font=("Arial", 16))
+        self.address_entry.grid(row=3, column=1, padx=10, pady=10)
+
+        self.add_button = Button(self.window, text="Add Contact", command=self.add_contact, bg="#4CAF50", fg="white", font=("Arial", 16))
+        self.add_button.grid(row=4, column=0, padx=10, pady=10, columnspan=2)
+
+        self.view_button = Button(self.window, text="View Contacts", command=self.view_contacts, bg="#2196F3", fg="white", font=("Arial", 16))
+        self.view_button.grid(row=5, column=0, padx=10, pady=10, columnspan=2)
+
+        self.search_button = Button(self.window, text="Search", command=self.search_contact, bg="#FFC107", fg="white", font=("Arial", 16))
+        self.search_button.grid(row=0, column=2, padx=10, pady=10)
+
+        self.update_button = Button(self.window, text="Update", command=self.update_contact, bg="#FF5722", fg="white", font=("Arial", 16))
+        self.update_button.grid(row=1, column=2, padx=10, pady=10)
+
+        self.delete_button = Button(self.window, text="Delete", command=self.delete_contact, bg="#F44336", fg="white", font=("Arial", 16))
+        self.delete_button.grid(row=2, column=2, padx=10, pady=10)
+
+        # Start GUI
+        self.window.mainloop()
+
+    # Add Contact
+    def add_contact(self):
+        name = self.name_entry.get()
+        phone = self.phone_entry.get()
+        email = self.email_entry.get()
+        address = self.address_entry.get()
+
+        if name and phone and email and address:
+            contact = {
+                "name": name,
+                "phone": phone,
+                "email": email,
+                "address": address
+            }
+            self.contacts.append(contact)
+            messagebox.showinfo("Success", "Contact added successfully!")
+            self.clear_entries()
+        else:
+            messagebox.showwarning("Error", "Please fill in all fields.")
+
+    # View Contacts
+    def view_contacts(self):
+        top = Toplevel()
+        top.title("Contact List")
+        top.configure(bg="#F5F5F5")
+
+        if len(self.contacts) == 0:
+            Label(top, text="No contacts found.", bg="#F5F5F5", font=("Arial", 16)).pack(padx=10, pady=10)
+        else:
+            for contact in self.contacts:
+                Label(top, text="Name: " + contact["name"], bg="#F5F5F5", font=("Arial", 16)).pack(padx=10, pady=5)
+                Label(top, text="Phone: " + contact["phone"], bg="#F5F5F5", font=("Arial", 16)).pack(padx=10, pady=5)
+                Label(top, text="Email: " + contact["email"], bg="#F5F5F5", font=("Arial", 16)).pack(padx=10, pady=5)
+                Label(top, text="Address: " + contact["address"], bg="#F5F5F5", font=("Arial", 16)).pack(padx=10, pady=10)
+
+    # Search Contact
+    def search_contact(self):
+        name = self.name_entry.get()
+        found_contacts = []
+
+        for contact in self.contacts:
+            if contact["name"].lower() == name.lower():
+                found_contacts.append(contact)
+
+        top = Toplevel()
+        top.title("Search Results")
+        top.configure(bg="#F5F5F5")
+
+        if len(found_contacts) == 0:
+            Label(top, text="No contacts found.", bg="#F5F5F5", font=("Arial", 16)).pack(padx=10, pady=10)
+        else:
+            for contact in found_contacts:
+                Label(top, text="Name: " + contact["name"], bg="#F5F5F5", font=("Arial", 16)).pack(padx=10, pady=5)
+                Label(top, text="Phone: " + contact["phone"], bg="#F5F5F5", font=("Arial", 16)).pack(padx=10, pady=5)
+                Label(top, text="Email: " + contact["email"], bg="#F5F5F5", font=("Arial", 16)).pack(padx=10, pady=5)
+                Label(top, text="Address: " + contact["address"], bg="#F5F5F5", font=("Arial", 16)).pack(padx=10, pady=10)
+
+    # Update Contact
+    def update_contact(self):
+        name = self.name_entry.get()
+        found_contact = None
+
+        for contact in self.contacts:
+            if contact["name"].lower() == name.lower():
+                found_contact = contact
+
+        if found_contact:
+            found_contact["phone"] = self.phone_entry.get()
+            found_contact["email"] = self.email_entry.get()
+            found_contact["address"] = self.address_entry.get()
+            messagebox.showinfo("Success", "Contact updated successfully!")
+            self.clear_entries()
+        else:
+            messagebox.showwarning("Error", "Contact not found.")
+
+    # Delete Contact
+    def delete_contact(self):
+        name = self.name_entry.get()
+        found_contact = None
+
+        for contact in self.contacts:
+            if contact["name"].lower() == name.lower():
+                found_contact = contact
+
+        if found_contact:
+            self.contacts.remove(found_contact)
+            messagebox.showinfo("Success", "Contact deleted successfully!")
+            self.clear_entries()
+        else:
+            messagebox.showwarning("Error", "Contact not found.")
+
+    # Clear Entries
+    def clear_entries(self):
+        self.name_entry.delete(0, END)
+        self.phone_entry.delete(0, END)
+        self.email_entry.delete(0, END)
+        self.address_entry.delete(0, END)
+
+
+# Create an instance of the ContactBook class
+contact_book = ContactBook()
+
+
+
+
+
+
+
+
+
+# this code by helping of ChatGPT
